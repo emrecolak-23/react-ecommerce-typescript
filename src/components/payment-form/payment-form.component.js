@@ -1,10 +1,10 @@
 import { useState } from 'react';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import { selectCartTotal } from '../../store/cart/cart.selector';
 import { selectorCurrentUser } from '../../store/user/user.selector';
 import { CardElement, useStripe, useElements } from '@stripe/react-stripe-js';
 import { BUTTON_TYPE_CLASSES } from '../button/button.component';
-
+import { clearItemsFromCart } from '../../store/cart/cart.actions';
 import {
   PaymentFormContainer,
   FormContainer,
@@ -12,6 +12,7 @@ import {
 } from './payment-from.styles';
 
 const PaymentForm = () => {
+  const dispatch = useDispatch();
   const stripe = useStripe();
   const elements = useElements();
   const amount = useSelector(selectCartTotal);
@@ -52,6 +53,7 @@ const PaymentForm = () => {
     } else {
       if (paymentResult.paymentIntent.status === 'succeeded') {
         alert('Payment Successful');
+        dispatch(clearItemsFromCart());
       }
     }
   };
