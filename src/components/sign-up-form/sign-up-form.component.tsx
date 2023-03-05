@@ -1,5 +1,5 @@
-import './sign-up-form.styles.scss';
-import { useState } from 'react';
+import {SignUpContainer}  from './sign-up-form.styles';
+import { useState, ChangeEvent, FormEvent } from 'react';
 import { useDispatch } from 'react-redux';
 import { signUpStart } from '../../store/user/user.actions';
 // import {
@@ -9,7 +9,7 @@ import { signUpStart } from '../../store/user/user.actions';
 
 import FormInput from '../form-input/form-input.component';
 import Button from '../button/button.component';
-
+import { AuthError, AuthErrorCodes } from 'firebase/auth';
 const defaultFormFields = {
   displayName: '',
   email: '',
@@ -26,7 +26,7 @@ const SignUpForm = () => {
     setFormFields(defaultFormFields);
   };
 
-  const handleSubmit = async (event) => {
+  const handleSubmit = async (event:FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     if (password !== confirmPassword) {
       alert('Passwords do not match');
@@ -43,7 +43,8 @@ const SignUpForm = () => {
       dispatch(signUpStart(email, password, displayName));
       resetFormFields();
     } catch (error) {
-      if (error.code === 'auth/email-already-in-use') {
+      const {code } = error as AuthError
+      if (code === AuthErrorCodes.EMAIL_EXISTS) {
         alert('Can not create an account, email already in use');
       } else {
         console.log('user creation encountered error: ', error);
@@ -51,13 +52,13 @@ const SignUpForm = () => {
     }
   };
 
-  const handleChange = (event) => {
+  const handleChange = (event:ChangeEvent<HTMLInputElement>) => {
     const { name, value } = event.target;
     setFormFields({ ...formFields, [name]: value });
   };
 
   return (
-    <div className="sign-up-container">
+    <SignUpContainer>
       <h2>Don't have an account</h2>
       <span>Sign up with your email and password</span>
       <form onSubmit={handleSubmit}>
@@ -95,7 +96,7 @@ const SignUpForm = () => {
         />
         <Button type="submit">Sign Up</Button>
       </form>
-    </div>
+    </SignUpContainer>
   );
 };
 
