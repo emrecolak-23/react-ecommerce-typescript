@@ -1,4 +1,4 @@
-import './category.styles.scss';
+import {CategoryContainer, CategoryTitle} from './category.styles';
 import { useState, useEffect, Fragment } from 'react';
 import { useParams } from 'react-router-dom';
 // import useCategoriesContext from '../../hooks/categories-context.hooks';
@@ -9,8 +9,13 @@ import {
   selectorCategoriesMap,
   selectIsCategoriesLoading,
 } from '../../store/categories/categories.selector';
+
+type CategoryRouteParams = {
+  category: string
+}
+
 const Category = () => {
-  const { category } = useParams();
+  const { category } = useParams<keyof CategoryRouteParams>() as CategoryRouteParams;
   // const { categoriesMap } = useCategoriesContext();
   const categoriesMap = useSelector(selectorCategoriesMap);
   const isLoading = useSelector(selectIsCategoriesLoading);
@@ -22,16 +27,16 @@ const Category = () => {
 
   return (
     <Fragment>
-      <h2 className="category-title">{category.toUpperCase()}</h2>
+      <CategoryTitle>{category.toUpperCase()}</CategoryTitle>
       {isLoading ? (
         <Spinner />
       ) : (
-        <div className="category-container">
+        <CategoryContainer>
           {products &&
             products.map((product) => (
               <ProductCard key={product.id} product={product} />
             ))}
-        </div>
+        </CategoryContainer>
       )}
     </Fragment>
   );
