@@ -19,12 +19,12 @@ import {
 import { selectCartItems } from '../../store/cart/cart.selector';
 
 import { CartItem } from '../../store/cart/cart.types';
-import {FC} from 'react'
+import {FC, memo} from 'react'
 type CheckoutItemProp = {
   cartItem: CartItem
 }
 
-const CheckoutItem:FC<CheckoutItemProp> = ({ cartItem }) => {
+const CheckoutItem:FC<CheckoutItemProp> = memo(({ cartItem }) => {
   const dispatch = useDispatch();
   const { imageUrl, name, price, quantity } = cartItem;
   // const { clearItemFromCart, addItemToCart, removeItemFromCart } =
@@ -58,6 +58,6 @@ const CheckoutItem:FC<CheckoutItemProp> = ({ cartItem }) => {
       <RemoveButton onClick={clearItemFromCartHandler}>&#10005;</RemoveButton>
     </CheckoutItemContainer>
   );
-};
+});
 
 export default CheckoutItem;
