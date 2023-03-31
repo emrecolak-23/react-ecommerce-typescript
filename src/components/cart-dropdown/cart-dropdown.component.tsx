@@ -4,7 +4,7 @@ import {
   CartItems,
 } from './cart-dropdown.styles';
 import { useNavigate } from 'react-router-dom';
-import { useCallback, useMemo } from 'react';
+import { useCallback } from 'react';
 import Button from '../button/button.component';
 import CartItemComp from '../cart-item/cart-item.component';
 // import useCartContext from '../../hooks/cart-context.hooks';
@@ -17,7 +17,7 @@ const CartDropdown = () => {
 
   const goToCheckoutHandler = useCallback(() => {
     navigate('/checkout');
-  }, []);
+  }, [navigate]);
 
   return (
     <CartDropdownContainer>
