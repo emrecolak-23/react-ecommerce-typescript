@@ -9,6 +9,7 @@ import { useEffect, lazy, Suspense } from 'react';
 //   getCurrentUser,
 // } from './utils/firebase/firebase.utils';
 import { checkUserSession } from './store/user/user.actions';
+import { GlobalStyle } from './global.styles';
 
 import { useDispatch } from 'react-redux';
 
@@ -45,6 +46,7 @@ const App = () => {
 
   return (
     <Suspense fallback={<Spinner />}>
+      <GlobalStyle />
       <Routes>
         <Route path="/" element={<Navigation />}>
           <Route index element={<Home />} />
